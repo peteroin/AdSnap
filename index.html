@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AdSnap - Instant Ad Campaign Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdSnap - AI-Powered Ad Campaign Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -27,36 +27,87 @@
   </div>
 
 
-  <!-- Generate Campaign -->
   <header>
     <div class="cyber-corner top-left"></div>
     <div class="cyber-corner top-right"></div>
     <div class="cyber-corner bottom-left"></div>
     <div class="cyber-corner bottom-right"></div>
     <h1>AdSnap</h1>
-    <p>Instant Ad Campaign Generator using Creative GenAI</p>
+    <p>AI-Powered Ad Campaign Generator</p>
   </header>
 
   <div class="container">
     <div class="input-section">
-      <label for="productPhoto">Upload Product Photo:</label>
-      <input type="file" id="productPhoto" accept="image/*" />
+      <label for="campaignName">Campaign Name:</label>
+      <input type="text" id="campaignName" placeholder="Enter campaign name">
+      
+      <label for="productPhoto">Upload Product Photo (Optional):</label>
+      <input type="file" id="productPhoto" accept="image/*">
+
+      <label for="productName">Product Name:</label>
+      <input type="text" id="productName" placeholder="Enter product name" required>
+      
+      <label for="productCategory">Product Category:</label>
+      <select id="productCategory" required>
+        <option value="">Select a category</option>
+        <option value="fashion">Fashion & Apparel</option>
+        <option value="electronics">Electronics</option>
+        <option value="beauty">Beauty & Cosmetics</option>
+        <option value="home">Home & Kitchen</option>
+        <option value="health">Health & Wellness</option>
+        <option value="food">Food & Beverage</option>
+        <option value="other">Other</option>
+      </select>
 
       <label for="productDescription">Product Description:</label>
-      <textarea id="productDescription" rows="5" placeholder="Describe your product..."></textarea>
+      <textarea id="productDescription" rows="5" placeholder="Describe your product features, benefits, and target audience..." required></textarea>
+      
+      <label for="brandTone">Brand Tone:</label>
+      <select id="brandTone" required>
+        <option value="professional">Professional</option>
+        <option value="friendly">Friendly & Casual</option>
+        <option value="luxury">Luxury & Elegant</option>
+        <option value="fun">Fun & Playful</option>
+        <option value="bold">Bold & Edgy</option>
+      </select>
 
-      <button onclick="generateAdCampaign()">Generate Campaign</button>
+      <div class="banner-options">
+        <label for="bannerStyle">Banner Style:</label>
+        <select id="bannerStyle">
+          <option value="gradient">Gradient</option>
+          <option value="geometric">Geometric</option>
+          <option value="minimal">Minimal</option>
+          <option value="dark">Dark Theme</option>
+        </select>
+
+        <label for="primaryColor">Primary Color:</label>
+        <input type="color" id="primaryColor" value="#4a90e2">
+
+        <label for="secondaryColor">Secondary Color:</label>
+        <input type="color" id="secondaryColor" value="#2a60b2">
+      </div>
+
+      <div class="api-key-input">
+        <label for="geminiKey">Gemini API Key:</label>
+        <input type="password" id="geminiKey" placeholder="Enter your Gemini API key" required>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">
+          Your API key is used only for this session and is not stored.
+        </p>
+      </div>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <button id="generateBtn">Generate Campaign with AI</button>
     </div>
 
     <div class="output-section" id="outputSection">
       <!-- Dynamic Content Goes Here -->
     </div>
-
   </div>
 
+  <script src="js/banner-generator.js"></script>
+  <script src="js/gemini-service.js"></script>
+  <script src="js/script.js"></script>
   <script src="js/login.js"></script>
-  <script src="js/generateAdCampaign.js"></script>
-
-
 </body>
 </html>
