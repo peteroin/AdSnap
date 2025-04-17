@@ -6,11 +6,9 @@ Follow these steps to run locally:
 
 ### 1️⃣ Clone the Repository
 
-<pre>```git clone https://github.com/your-username/```
+<pre>```git clone https://github.com/your-username/your-repo-name.git
 
-        your-repo-name.git
-
-        cd your-repo-name```</pre>
+cd your-repo-name```</pre>
 
 ---
 
@@ -33,7 +31,7 @@ Follow these steps to run locally:
 
 ### 3️⃣ Install Dependencies
 
-```pip install -r requirements.txt``
+```pip install -r requirements.txt```
 
 ---
 
@@ -41,7 +39,7 @@ Follow these steps to run locally:
 
 ### 4️⃣ Navigate to the Backend Folder
 
-```cd backend``
+```cd backend```
 
 ---
 
