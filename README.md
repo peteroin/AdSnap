@@ -6,9 +6,10 @@ Follow these steps to run locally:
 
 ### 1️⃣ Clone the Repository
 
-<pre>git clone https://github.com/your-username/your-repo-name.git
+<pre>git clone https://github.com/peteroin/AdSnap.git
 
-cd your-repo-name</pre>
+cd AdSnap
+</pre>
 
 ---
 
