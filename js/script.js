@@ -102,7 +102,50 @@ function parseMarkdownResponse(response) {
   return sections;
 }
 
-function displayCampaignResults(result) {
+async function saveCampaignToDB(campaignData) {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No authentication token found');
+      return null;
+    }
+
+    console.log('Saving campaign data:', campaignData);
+
+    const response = await fetch('http://localhost:5000/campaigns', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify(campaignData)
+    });
+
+    // First check if response is OK
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Server responded with:', errorText);
+      throw new Error(`Server error: ${response.status} ${response.statusText}`);
+    }
+
+    // Then try to parse as JSON
+    try {
+      const data = await response.json();
+      console.log('Campaign saved successfully:', data);
+      return data.id;
+    } catch (e) {
+      console.error('Failed to parse JSON:', e);
+      throw new Error('Invalid response from server');
+    }
+    
+  } catch (error) {
+    console.error('Error saving campaign:', error);
+    showError(`Failed to save campaign: ${error.message}`);
+    return null;
+  }
+}
+
+function displayCampaignResults(result, campaignName) {
   // Parse the AI response
   const textSections = parseMarkdownResponse(result.textContent);
   console.log("Parsed sections:", textSections); // Debugging line
@@ -170,10 +213,35 @@ function displayCampaignResults(result) {
     bannerGenerator.canvas = document.querySelector('#banners-content canvas');
     bannerGenerator.ctx = bannerGenerator.canvas.getContext('2d');
   }
+
+  // Prepare campaign data to save
+  const campaignData = {
+    name: campaignName,
+    description: document.getElementById('productDescription').value,
+    category: document.getElementById('productCategory').value,
+    tone: document.getElementById('brandTone').value,
+    banner_style: document.getElementById('bannerStyle').value,
+    primary_color: document.getElementById('primaryColor').value,
+    secondary_color: document.getElementById('secondaryColor').value,
+    generated_content: result.textContent
+  };
+
+  // Save the campaign to the database
+// Inside the displayCampaignResults function, after saving the campaign:
+saveCampaignToDB(campaignData).then(campaignId => {
+  if (campaignId) {
+    console.log('Campaign saved with ID:', campaignId);
+    // Refresh the account data to show the new campaign
+    if (typeof loadAccountData === 'function') {
+      loadAccountData();
+    }
+  }
+});
 }
 
 async function generateAdCampaign() {
   // Get form values
+  const campaignName = document.getElementById('campaignName').value || `Campaign ${new Date().toLocaleDateString()}`;
   const productName = document.getElementById('productName').value;
   const productCategory = document.getElementById('productCategory').value;
   const brandTone = document.getElementById('brandTone').value;
@@ -217,7 +285,7 @@ async function generateAdCampaign() {
     displayCampaignResults({
       textContent: textResponse,
       bannerResult: bannerResult
-    });
+    }, campaignName);
     
   } catch (error) {
     console.error('Full error:', error); // More detailed error logging
@@ -235,3 +303,8 @@ async function generateAdCampaign() {
 // Make functions available globally for HTML onclick handlers
 window.switchTab = switchTab;
 window.copyToClipboard = copyToClipboard;
+
+
+// Add this to make account-related functions available globally
+window.viewCampaignDetails = viewCampaignDetails;
+window.hideAccountOverlay = handleAccountOverlayClose;
