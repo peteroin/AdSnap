@@ -140,3 +140,11 @@ dist
 venv/
 .venv/
 env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# SQLite DB 
+instance/*.sqlite
+instance/*.db
