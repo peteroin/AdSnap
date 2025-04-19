@@ -118,32 +118,32 @@ async function loadAccountData() {
     showLoadingState(true, 'Loading your campaigns...');
     
     const [accountResponse, campaignsResponse] = await Promise.all([
-      fetch('/account', {
-        headers: { 'Authorization': token }
+      fetch('http://localhost:5000/account', {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       }),
-      fetch('/campaigns', {
-        headers: { 'Authorization': token }
+      fetch('http://localhost:5000/campaigns', {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
     ]);
 
-    if (!accountResponse.ok) {
-      const errorData = await accountResponse.json();
-      throw new Error(errorData.message || 'Failed to fetch account info');
-    }
-    
-    if (!campaignsResponse.ok) {
-      const errorData = await campaignsResponse.json();
-      throw new Error(errorData.message || 'Failed to fetch campaigns');
+    if (!accountResponse.ok || !campaignsResponse.ok) {
+      throw new Error('Failed to fetch account data');
     }
 
     const accountInfo = await accountResponse.json();
     const campaigns = await campaignsResponse.json();
     
+    console.log('Loaded campaigns:', campaigns); // Debug log
     updateAccountUI(accountInfo, campaigns);
     
   } catch (error) {
     console.error('Failed to load account data:', error);
-    showNotification(`Error: ${error.message}`, 'error');
     showErrorState(error.message);
   } finally {
     showLoadingState(false);
@@ -184,30 +184,22 @@ function updateCampaignsList(campaigns) {
   
   campaignsList.innerHTML = campaigns.map(campaign => `
     <div class="campaign-item" onclick="viewCampaignDetails('${campaign.id}')">
-      <div class="campaign-date">${new Date(campaign.created_at).toLocaleDateString()}</div>
-      <div class="campaign-name">${campaign.name || 'Unnamed Campaign'}</div>
-      <div class="campaign-category">${campaign.category || 'No category'}</div>
-      <div class="campaign-preview">
-        ${campaign.generated_content ? 
-          extractPreviewText(campaign.generated_content) : 
-          'No content preview available'}
+      <div class="campaign-info">
+        <div class="campaign-header">
+          <span class="campaign-date">${new Date(campaign.created_at).toLocaleDateString()}</span>
+          <span class="campaign-name">${campaign.name || 'Unnamed Campaign'}</span>
+        </div>
+        <div class="campaign-category">${campaign.category || 'No category'}</div>
+        <div class="campaign-preview">
+          ${campaign.preview || 'No preview available'}
+        </div>
       </div>
     </div>
   `).join('');
 }
 
-// Extract preview text from generated content
-function extractPreviewText(content) {
-  // Try to find the first section with actual content
-  const firstSection = content.split('###')[1];
-  if (!firstSection) return 'Generated content available...';
-  
-  const firstLines = firstSection.split('\n')
-    .filter(line => line.trim() && !line.startsWith('###'))
-    .slice(0, 3);
-    
-  return firstLines.map(line => line.replace(/^- /, '').trim()).join(' ') + '...';
-}
+// Make functions globally available
+window.loadAccountData = loadAccountData;
 
 // View campaign details
 async function viewCampaignDetails(campaignId) {
