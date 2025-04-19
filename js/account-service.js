@@ -3,14 +3,20 @@ const API_BASE = 'http://localhost:5000';
 
 export async function getAccountInfo(token) {
     const response = await fetch(`${API_BASE}/account`, {
-        headers: { Authorization: token }
+        headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
     });
     return await response.json();
 }
 
 export async function getUserCampaigns(token) {
     const response = await fetch(`${API_BASE}/campaigns`, {
-        headers: { Authorization: token }
+        headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
     });
     return await response.json();
 }
