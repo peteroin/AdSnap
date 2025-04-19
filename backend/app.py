@@ -60,8 +60,9 @@ def update_account(current_user):
 @token_required
 def get_user_campaigns(current_user):
     campaigns = Campaign.query.filter_by(user_id=current_user.id)\
-                              .order_by(Campaign.created_at.desc())\
-                              .all()
+                            .order_by(Campaign.created_at.desc())\
+                            .all()
+    
     return jsonify([{
         'id': c.id,
         'name': c.name,
@@ -69,7 +70,10 @@ def get_user_campaigns(current_user):
         'category': c.category,
         'tone': c.tone,
         'created_at': c.created_at.isoformat(),
-        'preview': c.generated_content[:100] if c.generated_content else None
+        'preview': c.generated_content[:100] if c.generated_content else '',
+        'banner_style': c.banner_style,
+        'primary_color': c.primary_color,
+        'secondary_color': c.secondary_color
     } for c in campaigns])
 
 @app.route('/campaigns/<int:id>', methods=['GET'])

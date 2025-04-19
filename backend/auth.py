@@ -12,16 +12,28 @@ SECRET_KEY = "your-secret-key"
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
+        token = None
+        auth_header = request.headers.get('Authorization')
+        
+        if auth_header:
+            # Handle both "Bearer <token>" and plain token format
+            parts = auth_header.split()
+            if len(parts) == 2 and parts[0].lower() == 'bearer':
+                token = parts[1]
+            else:
+                token = auth_header
+        
         if not token:
             return jsonify({'message': 'Token is missing'}), 401
+            
         try:
             data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             current_user = User.query.get(data['user_id'])
             if not current_user:
                 return jsonify({'message': 'User not found'}), 401
-        except Exception:
+        except Exception as e:
             return jsonify({'message': 'Token is invalid'}), 401
+            
         return f(current_user, *args, **kwargs)
     return decorated
 
