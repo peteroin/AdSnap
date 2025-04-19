@@ -16,7 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function getAccountInfo(token) {
   const res = await fetch(`${API_BASE}/account`, {
-    headers: { Authorization: token },
+    headers: { 
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
   });
 
   if (!res.ok) {
@@ -29,7 +32,10 @@ async function getAccountInfo(token) {
 async function verifyToken(token) {
   try {
     const res = await fetch(`${API_BASE}/account`, {
-      headers: { Authorization: token },
+      headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
     });
 
     if (res.ok) {
