@@ -19,6 +19,12 @@ class BannerGenerator {
       this.canvas.style.border = '1px solid rgba(255,255,255,0.2)';
       this.canvas.style.borderRadius = '8px';
       this.canvas.style.marginTop = '1rem';
+      
+      // Add canvas to the document
+      const outputSection = document.getElementById('outputSection');
+      if (outputSection) {
+        outputSection.appendChild(this.canvas);
+      }
     }
     
     this.ctx = this.canvas.getContext('2d');
@@ -31,6 +37,18 @@ class BannerGenerator {
       
       // Clear canvas
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // Ensure colors are valid hex values
+      primaryColor = primaryColor || '#000000';
+      secondaryColor = secondaryColor || '#ffffff';
+      
+      // Log for debugging
+      console.log('Generating banner with:', {
+        productName,
+        style,
+        primaryColor,
+        secondaryColor
+      });
       
       // Apply selected style
       switch(style) {
@@ -52,6 +70,11 @@ class BannerGenerator {
       
       // Add product name text
       this.addProductText(productName, style, primaryColor);
+      
+      // Force a redraw
+      this.canvas.style.display = 'none';
+      this.canvas.offsetHeight; // trigger reflow
+      this.canvas.style.display = 'block';
       
       return { success: true, canvas: this.canvas };
     } catch (error) {
@@ -169,23 +192,44 @@ class BannerGenerator {
   }
 
   downloadBanner() {
-      if (!this.canvas) {
-        console.error("Canvas not initialized for download");
+    if (!this.canvas) {
+      console.error("Canvas not initialized for download");
+      return false;
+    }
+    
+    try {
+      // Ensure the canvas has content
+      const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+      const hasContent = imageData.data.some(pixel => pixel !== 0);
+      
+      if (!hasContent) {
+        console.error("Canvas is empty");
+        showNotification("Cannot download empty banner", "error");
         return false;
       }
       
-      try {
-        const link = document.createElement('a');
-        const filename = `banner-${new Date().getTime()}.png`;
-        link.download = filename;
-        link.href = this.canvas.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        return true;
-      } catch (error) {
-        console.error("Download failed:", error);
-        return false;
-      }
+      // Store the parent container reference
+      const parentContainer = this.canvas.parentElement;
+      
+      // Create download link
+      const link = document.createElement('a');
+      const filename = `banner-${new Date().getTime()}.png`;
+      
+      // Get data URL without removing canvas from DOM
+      const dataUrl = this.canvas.toDataURL('image/png');
+      
+      link.download = filename;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      showNotification("Banner downloaded successfully", "success");
+      return true;
+    } catch (error) {
+      console.error("Download failed:", error);
+      showNotification("Failed to download banner: " + error.message, "error");
+      return false;
     }
   }
+}
