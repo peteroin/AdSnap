@@ -1151,3 +1151,29 @@ header p {
     gap: 0.5rem;
   }
 }
+
+#bannerContainer {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+#bannerCanvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.campaign-content {
+  display: none;
+  padding: 20px;
+}
+
+.campaign-content.active {
+  display: block;
+}
