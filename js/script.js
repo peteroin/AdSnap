@@ -160,7 +160,9 @@ function displayCampaignResults(result, campaignName) {
     bannerHTML = `
       <div class="campaign-content" id="banners-content">
         <h3>Generated Banner</h3>
-        ${result.bannerResult.canvas.outerHTML}
+        <div id="bannerContainer">
+          <!-- Canvas will be inserted here by BannerGenerator -->
+        </div>
         <button onclick="bannerGenerator.downloadBanner()" class="copy-btn">
           Download Banner
         </button>
@@ -208,10 +210,13 @@ function displayCampaignResults(result, campaignName) {
     ${bannerHTML}
   `;
   
-  // Reinitialize canvas if banner was generated
+  // If banner was generated, move the canvas to the banner container
   if (result.bannerResult?.success) {
-    bannerGenerator.canvas = document.querySelector('#banners-content canvas');
-    bannerGenerator.ctx = bannerGenerator.canvas.getContext('2d');
+    const bannerContainer = document.getElementById('bannerContainer');
+    if (bannerContainer && bannerGenerator.canvas) {
+      bannerContainer.innerHTML = ''; // Clear any existing content
+      bannerContainer.appendChild(bannerGenerator.canvas);
+    }
   }
 
   // Prepare campaign data to save
@@ -226,17 +231,23 @@ function displayCampaignResults(result, campaignName) {
     generated_content: result.textContent
   };
 
-  // Save the campaign to the database
-// Inside the displayCampaignResults function, after saving the campaign:
-saveCampaignToDB(campaignData).then(campaignId => {
-  if (campaignId) {
-    console.log('Campaign saved with ID:', campaignId);
-    // Refresh the account data to show the new campaign
-    if (typeof loadAccountData === 'function') {
-      loadAccountData();
-    }
-  }
-});
+  // Save the campaign and update UI
+  saveCampaignToDB(campaignData)
+    .then(campaignId => {
+      if (campaignId) {
+        console.log('Campaign saved with ID:', campaignId);
+        // Show success notification
+        showNotification('Campaign saved successfully!', 'success');
+        // Refresh the account data
+        if (typeof window.loadAccountData === 'function') {
+          window.loadAccountData();
+        }
+      }
+    })
+    .catch(error => {
+      console.error('Error saving campaign:', error);
+      showNotification('Failed to save campaign', 'error');
+    });
 }
 
 async function generateAdCampaign() {
@@ -246,10 +257,9 @@ async function generateAdCampaign() {
   const productCategory = document.getElementById('productCategory').value;
   const brandTone = document.getElementById('brandTone').value;
   const productDescription = document.getElementById('productDescription').value;
-  const apiKey = document.getElementById('geminiKey').value;
   
   // Validate inputs
-  if (!productName || !productCategory || !productDescription || !apiKey) {
+  if (!productName || !productCategory || !productDescription) {
     showError("Please fill in all required fields");
     return;
   }
@@ -258,7 +268,7 @@ async function generateAdCampaign() {
   showLoading();
   
   try {
-    const geminiService = new GeminiService(apiKey);
+    const geminiService = new GeminiService();
     
     const productDetails = {
       productName,
@@ -288,7 +298,7 @@ async function generateAdCampaign() {
     }, campaignName);
     
   } catch (error) {
-    console.error('Full error:', error); // More detailed error logging
+    console.error('Full error:', error);
     showError(`Error: ${error.message}`);
     document.getElementById('outputSection').innerHTML = `
       <div class="error-message">
@@ -297,6 +307,8 @@ async function generateAdCampaign() {
         ${error.response ? `<pre>${JSON.stringify(error.response, null, 2)}</pre>` : ''}
       </div>
     `;
+  } finally {
+    hideLoading();
   }
 }
 
