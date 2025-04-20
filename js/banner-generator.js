@@ -232,4 +232,12 @@ class BannerGenerator {
       return false;
     }
   }
+
+  getImageUrl() {
+    if (!this.canvas) {
+      console.error("Canvas not initialized");
+      return null;
+    }
+    return this.canvas.toDataURL('image/png');
+  }
 }
