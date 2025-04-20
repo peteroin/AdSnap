@@ -252,6 +252,120 @@ header p {
   font-size: 0.9rem;
 }
 
+/* Enhanced Dropdown Styling with matching theme */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, rgba(10, 17, 40, 0.9), rgba(26, 35, 126, 0.9));
+  border: 1px solid rgba(74, 144, 226, 0.4);
+  border-radius: 10px;
+  color: #a0cfff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 15px rgba(74, 144, 226, 0.1),
+              inset 0 0 15px rgba(10, 17, 40, 0.5);
+}
+
+/* Hover and focus states */
+select:hover {
+  background: linear-gradient(135deg, rgba(26, 35, 126, 0.9), rgba(10, 17, 40, 0.9));
+  border-color: #4a90e2;
+  box-shadow: 0 0 20px rgba(74, 144, 226, 0.2),
+              inset 0 0 15px rgba(74, 144, 226, 0.2);
+  transform: translateY(-1px);
+}
+
+select:focus {
+  outline: none;
+  background: linear-gradient(135deg, rgba(26, 35, 126, 0.95), rgba(10, 17, 40, 0.95));
+  border-color: #4a90e2;
+  box-shadow: 0 0 25px rgba(74, 144, 226, 0.3),
+              inset 0 0 20px rgba(74, 144, 226, 0.2);
+}
+
+/* Style for options */
+select option {
+  background: linear-gradient(135deg, #0a1128, #1a237e);
+  color: #a0cfff;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+/* Category-specific styling */
+#productCategory option,
+#brandTone option,
+#bannerStyle option {
+  background: linear-gradient(135deg, #0a1128, #1a237e);
+  color: #a0cfff;
+  text-shadow: 0 0 5px rgba(160, 207, 255, 0.5);
+}
+
+/* Custom dropdown arrow with glow effect */
+.form-group {
+  position: relative;
+}
+
+.form-group::after {
+  content: '\f107';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #4a90e2;
+  text-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Custom scrollbar */
+select::-webkit-scrollbar {
+  width: 8px;
+  background: rgba(10, 17, 40, 0.9);
+}
+
+select::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #357abd, #4a90e2);
+}
+
+/* Form group label styling */
+.form-group label {
+  color: #a0cfff;
+  text-shadow: 0 0 10px rgba(160, 207, 255, 0.3);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Disabled option styling */
+select option[disabled] {
+  background: linear-gradient(135deg, #0a1128, #1a237e);
+  color: rgba(160, 207, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  select {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  
+  .form-group::after {
+    right: 12px;
+  }
+}
 
 /* Login Overlay Styles */
 .login-overlay {
@@ -1176,4 +1290,133 @@ header p {
 
 .campaign-content.active {
   display: block;
+}
+
+/* Add social sharing styles */
+.banner-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.share-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+}
+
+.share-btn:hover {
+  opacity: 0.9;
+}
+
+.twitter-btn {
+  background-color: #1DA1F2;
+}
+
+.linkedin-btn {
+  background-color: #0077B5;
+}
+
+/* Add Font Awesome icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .banner-actions {
+    flex-direction: column;
+  }
+  
+  .share-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Add these new styles */
+.sharing-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sharing-list li {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.post-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.sharing-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.share-btn.small {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* Update existing share button styles */
+.share-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.share-btn:active {
+  transform: translateY(0);
+}
+
+.twitter-btn {
+  background-color: #1DA1F2;
+}
+
+.linkedin-btn {
+  background-color: #0077B5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sharing-buttons {
+    flex-direction: row;
+    justify-content: stretch;
+  }
+  
+  .share-btn.small {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .sharing-list li {
+    padding: 0.75rem;
+  }
 }
