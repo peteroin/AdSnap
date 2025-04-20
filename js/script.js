@@ -148,7 +148,7 @@ async function saveCampaignToDB(campaignData) {
 function displayCampaignResults(result, campaignName) {
   // Parse the AI response
   const textSections = parseMarkdownResponse(result.textContent);
-  console.log("Parsed sections:", textSections); // Debugging line
+  console.log("Parsed sections:", textSections);
   
   const output = document.getElementById('outputSection');
   
@@ -163,9 +163,17 @@ function displayCampaignResults(result, campaignName) {
         <div id="bannerContainer">
           <!-- Canvas will be inserted here by BannerGenerator -->
         </div>
-        <button onclick="bannerGenerator.downloadBanner()" class="copy-btn">
-          Download Banner
-        </button>
+        <div class="banner-actions">
+          <button onclick="bannerGenerator.downloadBanner()" class="copy-btn">
+            Download Banner
+          </button>
+          <button onclick="shareOnTwitter(bannerGenerator.getImageUrl())" class="share-btn twitter-btn">
+            <i class="fa fa-twitter"></i> Share on Twitter
+          </button>
+          <button onclick="shareOnLinkedIn(bannerGenerator.getImageUrl())" class="share-btn linkedin-btn">
+            <i class="fa fa-linkedin"></i> Share on LinkedIn
+          </button>
+        </div>
         <h4 style="margin-top: 2rem;">Banner Concepts</h4>
         <ul>
           ${textSections['Banner Concepts']?.map(concept => `<li>${concept}</li>`).join('') || '<li>No banner concepts generated</li>'}
@@ -185,16 +193,44 @@ function displayCampaignResults(result, campaignName) {
     
     <div class="campaign-content active" id="social-content">
       <h3>Social Media Posts</h3>
-      <ul>
-        ${textSections['Social Media Posts']?.map(post => `<li>${post.replace(/^- /, '').trim()}</li>`).join('') || '<li>No social media posts generated</li>'}
+      <ul class="sharing-list">
+        ${textSections['Social Media Posts']?.map(post => {
+          const cleanPost = post.replace(/^- /, '').trim();
+          return `
+            <li>
+              <div class="post-content">${cleanPost}</div>
+              <div class="sharing-buttons">
+                <button onclick="shareOnTwitter(null, '${cleanPost}')" class="share-btn twitter-btn small">
+                  <i class="fa fa-twitter"></i> Tweet
+                </button>
+                <button onclick="shareOnLinkedIn(null, '${cleanPost}')" class="share-btn linkedin-btn small">
+                  <i class="fa fa-linkedin"></i> Share
+                </button>
+              </div>
+            </li>`;
+        }).join('') || '<li>No social media posts generated</li>'}
       </ul>
       <button class="copy-btn" onclick="copyToClipboard('social-content')">Copy All</button>
     </div>
     
     <div class="campaign-content" id="captions-content">
       <h3>Ad Captions</h3>
-      <ul>
-        ${textSections['Ad Captions']?.map(caption => `<li>${caption.replace(/^- /, '').trim()}</li>`).join('') || '<li>No ad captions generated</li>'}
+      <ul class="sharing-list">
+        ${textSections['Ad Captions']?.map(caption => {
+          const cleanCaption = caption.replace(/^- /, '').trim();
+          return `
+            <li>
+              <div class="post-content">${cleanCaption}</div>
+              <div class="sharing-buttons">
+                <button onclick="shareOnTwitter(null, '${cleanCaption}')" class="share-btn twitter-btn small">
+                  <i class="fa fa-twitter"></i> Tweet
+                </button>
+                <button onclick="shareOnLinkedIn(null, '${cleanCaption}')" class="share-btn linkedin-btn small">
+                  <i class="fa fa-linkedin"></i> Share
+                </button>
+              </div>
+            </li>`;
+        }).join('') || '<li>No ad captions generated</li>'}
       </ul>
       <button class="copy-btn" onclick="copyToClipboard('captions-content')">Copy All</button>
     </div>
@@ -209,6 +245,18 @@ function displayCampaignResults(result, campaignName) {
     
     ${bannerHTML}
   `;
+
+  // Add PDF download button after all content
+  const downloadButton = document.createElement('div');
+  downloadButton.style.textAlign = 'center';
+  downloadButton.style.marginTop = '20px';
+  downloadButton.innerHTML = `
+    <button onclick="downloadCampaignPDF(${JSON.stringify(textSections)}, window.bannerGenerator)" 
+            class="download-btn">
+      <i class="fa fa-file-pdf"></i> Download PDF Report
+    </button>
+  `;
+  output.appendChild(downloadButton);
   
   // If banner was generated, move the canvas to the banner container
   if (result.bannerResult?.success) {
@@ -316,7 +364,251 @@ async function generateAdCampaign() {
 window.switchTab = switchTab;
 window.copyToClipboard = copyToClipboard;
 
+function shareOnTwitter(imageUrl = null, text = null) {
+  let tweetText = "🚀 Just created this amazing ad using AdSnap! #AdMagic";
+  
+  if (text) {
+    tweetText = text;
+  }
+  
+  const encodedText = encodeURIComponent(`${tweetText}${imageUrl ? '\n' + imageUrl : ''}`);
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+  window.open(twitterUrl, "_blank");
+}
+
+function shareOnLinkedIn(imageUrl = null, text = null) {
+  if (text) {
+    // For text posts, use the feed sharing URL
+    const encodedText = encodeURIComponent(text);
+    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?text=${encodedText}`;
+    window.open(linkedInUrl, "_blank");
+  } else {
+    // For images, use the regular URL sharing
+    const linkedInURL = window.location.origin;
+    const encodedUrl = encodeURIComponent(linkedInURL);
+    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+    window.open(linkedInUrl, "_blank");
+  }
+}
 
 // Add this to make account-related functions available globally
 window.viewCampaignDetails = viewCampaignDetails;
 window.hideAccountOverlay = handleAccountOverlayClose;
+
+// Make sharing functions available globally
+window.shareOnTwitter = shareOnTwitter;
+window.shareOnLinkedIn = shareOnLinkedIn;
+
+// Add these helper functions
+function formatSocialPost(post) {
+  return encodeURIComponent(`${post} \n\nCreated with #AdSnap #AdMagic`);
+}
+
+function formatAdCaption(caption) {
+  return encodeURIComponent(`${caption} \n\nCreated with #AdSnap #AdMagic`);
+}
+
+function generatePDFContent(textSections, bannerGenerator) {
+  // Create a container for PDF content
+  const pdfContent = document.createElement('div');
+  pdfContent.id = 'pdf-content';
+  pdfContent.style.padding = '20px';
+  pdfContent.style.background = '#fff';
+  pdfContent.style.maxWidth = '800px';
+  pdfContent.style.margin = '0 auto';
+  
+  // Add campaign content
+  pdfContent.innerHTML = `
+    <h1 style="color: #333; text-align: center;">Ad Campaign Report</h1>
+    <hr style="margin: 20px 0">
+    
+    <h2 style="color: #444;">Social Media Posts</h2>
+    <ul style="line-height: 1.6">
+      ${textSections['Social Media Posts']?.map(post => 
+        `<li>${post}</li>`
+      ).join('') || '<li>No social media posts generated</li>'}
+    </ul>
+    
+    <h2 style="color: #444;">Ad Captions</h2>
+    <ul style="line-height: 1.6">
+      ${textSections['Ad Captions']?.map(caption => 
+        `<li>${caption}</li>`
+      ).join('') || '<li>No ad captions generated</li>'}
+    </ul>
+    
+    <h2 style="color: #444;">Email Campaign</h2>
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
+      ${textSections['Email Campaign']?.join('<br><br>').replace(/^- /gm, '') || 'No email content generated'}
+    </div>
+    
+    <h2 style="color: #444;">Banner Concepts</h2>
+    <ul style="line-height: 1.6">
+      ${textSections['Banner Concepts']?.map(concept => 
+        `<li>${concept}</li>`
+      ).join('') || '<li>No banner concepts generated</li>'}
+    </ul>
+  `;
+  
+  // If banner exists, add it to PDF
+  if (bannerGenerator.canvas) {
+    const bannerSection = document.createElement('div');
+    bannerSection.innerHTML = `
+      <h2 style="color: #444;">Generated Banner</h2>
+      <img src="${bannerGenerator.canvas.toDataURL('image/png')}" 
+           style="max-width: 100%; height: auto; margin: 10px 0;">
+    `;
+    pdfContent.appendChild(bannerSection);
+  }
+  
+  return pdfContent;
+}
+
+async function downloadCampaignPDF(textSections, bannerGenerator) {
+  try {
+    console.log('Starting PDF download...'); // Debug log
+    
+    // Show loading state
+    const downloadBtn = event.currentTarget;
+    const originalText = downloadBtn.innerHTML;
+    downloadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
+    downloadBtn.disabled = true;
+
+    // First, ensure html2pdf is loaded
+    if (typeof html2pdf === 'undefined') {
+      console.log('Loading html2pdf library...'); // Debug log
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js';
+        script.onload = () => {
+          console.log('html2pdf loaded successfully'); // Debug log
+          resolve();
+        };
+        script.onerror = (error) => {
+          console.error('Failed to load html2pdf:', error); // Debug log
+          reject(new Error('Failed to load PDF generator'));
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    // Verify html2pdf is available
+    if (typeof html2pdf === 'undefined') {
+      throw new Error('PDF generator failed to load');
+    }
+
+    console.log('Creating PDF content...'); // Debug log
+    
+    // Create PDF content
+    const pdfContent = document.createElement('div');
+    pdfContent.id = 'pdf-content';
+    pdfContent.style.padding = '20px';
+    pdfContent.style.background = '#fff';
+    pdfContent.style.maxWidth = '800px';
+    pdfContent.style.margin = '0 auto';
+    pdfContent.style.fontFamily = 'Arial, sans-serif';
+
+    // Add campaign content
+    pdfContent.innerHTML = `
+      <h1 style="color: #333; text-align: center; margin-bottom: 30px;">Ad Campaign Report</h1>
+      
+      <div style="margin-bottom: 30px;">
+        <h2 style="color: #444;">Social Media Posts</h2>
+        <ul style="line-height: 1.6">
+          ${Array.isArray(textSections['Social Media Posts']) ? 
+            textSections['Social Media Posts'].map(post => 
+              `<li style="margin-bottom: 10px;">${post}</li>`
+            ).join('') : '<li>No social media posts generated</li>'}
+        </ul>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h2 style="color: #444;">Ad Captions</h2>
+        <ul style="line-height: 1.6">
+          ${Array.isArray(textSections['Ad Captions']) ? 
+            textSections['Ad Captions'].map(caption => 
+              `<li style="margin-bottom: 10px;">${caption}</li>`
+            ).join('') : '<li>No ad captions generated</li>'}
+        </ul>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h2 style="color: #444;">Email Campaign</h2>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+          ${Array.isArray(textSections['Email Campaign']) ? 
+            textSections['Email Campaign'].join('<br><br>') : 'No email content generated'}
+        </div>
+      </div>
+    `;
+
+    // Add banner if exists
+    if (bannerGenerator?.canvas) {
+      console.log('Adding banner to PDF...'); // Debug log
+      const bannerSection = document.createElement('div');
+      bannerSection.style.marginBottom = '30px';
+      bannerSection.innerHTML = `
+        <h2 style="color: #444;">Generated Banner</h2>
+        <img src="${bannerGenerator.canvas.toDataURL('image/png')}" 
+             style="max-width: 100%; height: auto; margin: 10px 0;">
+      `;
+      pdfContent.appendChild(bannerSection);
+    }
+
+    // Add timestamp
+    const timestamp = new Date().toLocaleString();
+    const footer = document.createElement('div');
+    footer.style.textAlign = 'center';
+    footer.style.marginTop = '30px';
+    footer.style.color = '#666';
+    footer.innerHTML = `Generated on ${timestamp}`;
+    pdfContent.appendChild(footer);
+
+    // Add to document temporarily
+    document.body.appendChild(pdfContent);
+
+    console.log('Generating PDF...'); // Debug log
+
+    // Configure PDF options
+    const opt = {
+      margin: 10,
+      filename: 'ad-campaign-report.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2,
+        useCORS: true,
+        logging: true // Enable logging for html2canvas
+      },
+      jsPDF: { 
+        unit: 'mm', 
+        format: 'a4', 
+        orientation: 'portrait'
+      }
+    };
+
+    // Generate PDF
+    try {
+      await html2pdf().from(pdfContent).set(opt).save();
+      console.log('PDF generated successfully'); // Debug log
+    } catch (pdfError) {
+      console.error('PDF generation error:', pdfError);
+      throw pdfError;
+    }
+
+    // Cleanup
+    document.body.removeChild(pdfContent);
+    
+    // Restore button state
+    downloadBtn.innerHTML = originalText;
+    downloadBtn.disabled = false;
+
+  } catch (error) {
+    console.error('PDF generation failed:', error);
+    alert('Failed to generate PDF report: ' + error.message);
+    
+    // Restore button state
+    if (event?.currentTarget) {
+      const downloadBtn = event.currentTarget;
+      downloadBtn.innerHTML = '<i class="fa fa-file-pdf"></i> Download PDF Report';
+      downloadBtn.disabled = false;
+    }
+  }
+}
