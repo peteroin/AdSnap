@@ -1,6 +1,6 @@
 class GeminiService {
   constructor() {
-    this.apiKey = 'AIzaSyA3m83w62Tk3AfyU1ohiL7cM5Q2kC7epRs';
+    this.apiKey = 'AIzaSyCqP7ZBqhjzJvpqhq3lxCjbtujzzOGLZ6A';
     this.availableModels = null;
   }
 
