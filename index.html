@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
   <title>AdSnap - AI-Powered Ad Campaign Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
   <!-- Login/Signup Overlay -->
@@ -83,17 +85,18 @@
           <input type="text" id="productName" placeholder="Enter product name" required>
         </div>
         
+        <!-- Product Category Dropdown -->
         <div class="form-group">
           <label for="productCategory">Product Category:</label>
           <select id="productCategory" required>
-            <option value="">Select a category</option>
-            <option value="fashion">Fashion & Apparel</option>
-            <option value="electronics">Electronics</option>
-            <option value="beauty">Beauty & Cosmetics</option>
-            <option value="home">Home & Kitchen</option>
-            <option value="health">Health & Wellness</option>
-            <option value="food">Food & Beverage</option>
-            <option value="other">Other</option>
+            <option value="" disabled selected>Select a category</option>
+            <option value="fashion">🛍️ Fashion & Apparel</option>
+            <option value="electronics">💻 Electronics</option>
+            <option value="beauty">💄 Beauty & Cosmetics</option>
+            <option value="home">🏠 Home & Kitchen</option>
+            <option value="health">💪 Health & Wellness</option>
+            <option value="food">🍽️ Food & Beverage</option>
+            <option value="other">✨ Other</option>
           </select>
         </div>
 
@@ -102,25 +105,29 @@
           <textarea id="productDescription" rows="5" placeholder="Describe your product features, benefits, and target audience..." required></textarea>
         </div>
         
+        <!-- Brand Tone Dropdown -->
         <div class="form-group">
           <label for="brandTone">Brand Tone:</label>
           <select id="brandTone" required>
-            <option value="professional">Professional</option>
-            <option value="friendly">Friendly & Casual</option>
-            <option value="luxury">Luxury & Elegant</option>
-            <option value="fun">Fun & Playful</option>
-            <option value="bold">Bold & Edgy</option>
+            <option value="" disabled selected>Select brand tone</option>
+            <option value="professional">👔 Professional</option>
+            <option value="friendly">😊 Friendly & Casual</option>
+            <option value="luxury">👑 Luxury & Elegant</option>
+            <option value="fun">🎉 Fun & Playful</option>
+            <option value="bold">🔥 Bold & Edgy</option>
           </select>
         </div>
 
         <div class="banner-options">
+          <!-- Banner Style Dropdown -->
           <div class="form-group">
             <label for="bannerStyle">Banner Style:</label>
             <select id="bannerStyle">
-              <option value="gradient">Gradient</option>
-              <option value="geometric">Geometric</option>
-              <option value="minimal">Minimal</option>
-              <option value="dark">Dark Theme</option>
+              <option value="" disabled selected>Choose banner style</option>
+              <option value="gradient">🌈 Gradient</option>
+              <option value="geometric">📐 Geometric</option>
+              <option value="minimal">⚪ Minimal</option>
+              <option value="dark">🌙 Dark Theme</option>
             </select>
           </div>
 
@@ -242,7 +249,7 @@
 <script src="js/account-service.js"></script>
 <script src="js/account.js"></script>
 <script src="js/script.js"></script>
-
+<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
 
 </body>
 </html>
