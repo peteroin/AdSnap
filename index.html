@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,250 +5,294 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AdSnap - AI-Powered Ad Campaign Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- <link rel="stylesheet" href="login.css"> -->
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-  <!-- Login/Signup Overlay -->
-  <div class="login-overlay" id="authOverlay">
-    <div class="login-container">
-      <div class="login-header">
+ <!-- Home Page -->
+ <div class="home-page" id="homePage">
+    <nav class="home-nav">
+      <div class="logo">
         <h2 class="glitch-effect" data-text="AdSnap">AdSnap</h2>
-        <p id="auth-message">Sign in to continue</p>
       </div>
-      
-      <!-- Login Form -->
-      <form id="loginForm" class="login-form">
-        <div class="form-group">
-          <input type="email" id="loginEmail" placeholder="Email" required>
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="nav-links">
+        <a href="#features"><i class="fas fa-star"></i> Features</a>
+        <a href="#how-it-works"><i class="fas fa-cogs"></i> How It Works</a>
+        <a href="#pricing"><i class="fas fa-tag"></i> Pricing</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="login.html" class="cta-button"><i class="fas fa-rocket"></i> Get Started</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="glitch-effect" data-text="Transform Your Marketing">Transform Your Marketing</h1>
+        <p class="hero-subtitle">AI-Powered Ad Campaign Generator for Modern Businesses</p>
+        <div class="hero-buttons">
+          <a href="login.html" class="cyber-button large"><i class="fas fa-magic"></i> Start Creating Now</a>
+          <button class="cyber-button large outline" onclick="document.querySelector('#demo-video').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-play"></i> Watch Demo
+          </button>
         </div>
-        <div class="form-group">
-          <input type="password" id="loginPassword" placeholder="Password" required>
+        <div class="trust-badges">
+          <div class="badge"><i class="fas fa-shield-alt"></i> Secure Platform</div>
+          <div class="badge"><i class="fas fa-bolt"></i> Fast Generation</div>
+          <div class="badge"><i class="fas fa-chart-line"></i> Proven Results</div>
         </div>
-        <button type="submit" class="cyber-button">Login</button>
-        <div class="login-links">
-          <a href="#" id="showSignup">Don't have an account? Sign up</a>
-          <a href="#" class="forgot-password">Forgot Password?</a>
+      </div>
+      <div class="hero-image">
+        <img src="assets/ad1.jpg" alt="AdSnap Demo" class="hero-img">
+        <div class="hero-image-overlay"></div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Powerful Features</h2>
+          <p class="section-subtitle">Everything you need to create stunning ad campaigns</p>
         </div>
-      </form>
-      
-      <!-- Signup Form -->
-      <form id="signupForm" class="login-form hidden">
-        <div class="form-group">
-          <input type="text" id="signupUsername" placeholder="Username" required>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+            <h3>AI-Powered Content</h3>
+            <p>Generate engaging ad copy, social media posts, and email campaigns in seconds with our advanced AI technology.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3>Banner Generator</h3>
+            <p>Create stunning ad banners with multiple styles, layouts, and customization options tailored to your brand.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+            <h3>Campaign Management</h3>
+            <p>Track, analyze, and optimize all your campaigns in one centralized dashboard with real-time metrics.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+            <h3>Multi-Platform</h3>
+            <p>Generate content optimized for Facebook, Instagram, Twitter, LinkedIn, and more with platform-specific formatting.</p>
+          </div>
         </div>
-        <div class="form-group">
-          <input type="email" id="signupEmail" placeholder="Email" required>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p class="section-subtitle">Create professional ad campaigns in just 4 simple steps</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Input Your Details</h3>
+            <p>Enter your product information, target audience, and campaign preferences.</p>
+          </div>
         </div>
-        <div class="form-group">
-          <input type="password" id="signupPassword" placeholder="Password" required>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>AI Generation</h3>
+            <p>Our AI analyzes your inputs and creates targeted content and visuals.</p>
+          </div>
         </div>
-        <button type="submit" class="cyber-button">Sign Up</button>
-        <div class="login-links">
-          <a href="#" id="showLogin">Already have an account? Login</a>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Customize</h3>
+            <p>Fine-tune the generated content to perfectly match your brand voice.</p>
+          </div>
         </div>
-      </form>
-    </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Export</h3>
+            <p>Download or copy your campaign assets and launch your campaign.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo-video" class="demo-section">
+      <div class="section-header">
+        <h2>See AdSnap in Action</h2>
+        <p class="section-subtitle">Watch how quickly you can create professional ad campaigns</p>
+      </div>
+      <div class="video-container">
+        <div class="video-wrapper">
+          <video controls poster="assets/demo-thumbnail.jpg">
+            <source src="assets/demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="play-button-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+      <div class="section-header">
+        <h2>Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">Choose the plan that fits your business needs</p>
+      </div>
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="price">$0<span>/month</span></div>
+          <ul>
+            <li><i class="fas fa-check"></i> 3 campaigns per month</li>
+            <li><i class="fas fa-check"></i> Basic banner styles</li>
+            <li><i class="fas fa-check"></i> Email support</li>
+            <li class="disabled"><i class="fas fa-times"></i> Advanced AI features</li>
+          </ul>
+          <button class="cyber-button" onclick="showAuthOverlay('signup')">Get Started</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="featured-tag">Most Popular</div>
+          <h3>Pro</h3>
+          <div class="price">$29<span>/month</span></div>
+          <ul>
+            <li><i class="fas fa-check"></i> Unlimited campaigns</li>
+            <li><i class="fas fa-check"></i> All banner styles</li>
+            <li><i class="fas fa-check"></i> Priority support</li>
+            <li><i class="fas fa-check"></i> Advanced AI features</li>
+          </ul>
+          <button class="cyber-button primary" onclick="showAuthOverlay('signup')">Start Free Trial</button>
+        </div>
+        <div class="pricing-card">
+          <h3>Enterprise</h3>
+          <div class="price">Custom</div>
+          <ul>
+            <li><i class="fas fa-check"></i> Everything in Pro</li>
+            <li><i class="fas fa-check"></i> Custom AI training</li>
+            <li><i class="fas fa-check"></i> Dedicated support</li>
+            <li><i class="fas fa-check"></i> API access</li>
+          </ul>
+          <button class="cyber-button" onclick="window.location.href='mailto:'">Contact Sales</button>
+        </div>
+      </div>
+      <div class="pricing-footer">
+        <p>All plans come with a 14-day money-back guarantee. No credit card required for Free plan.</p>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <div class="section-header">
+        <h2>Trusted by Marketers Worldwide</h2>
+        <p class="section-subtitle">Don't just take our word for it</p>
+      </div>
+      <div class="testimonial-cards">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>"AdSnap cut our ad creation time by 80% while improving engagement rates. A must-have tool for any marketing team."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="assets/testimonial1.jpg" alt="Sarah Johnson">
+            <div>
+              <h4>Sarah Johnson</h4>
+              <p>Marketing Director, TechCorp</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>"The AI-generated content outperforms our manually created ads. We've seen a 45% increase in conversion rates."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="assets/testimonial2.jpg" alt="Michael Chen">
+            <div>
+              <h4>Michael Chen</h4>
+              <p>Founder, StartupX</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Ready to Transform Your Marketing?</h2>
+        <p>Join thousands of businesses creating better ads faster with AdSnap.</p>
+        <div class="cta-buttons">
+          <a href="index.html" class="cyber-button large primary"><i class="fas fa-rocket"></i> Get Started for Free</a>
+          <button class="cyber-button large outline" onclick="document.querySelector('#demo-video').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-play-circle"></i> Watch Demo
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="home-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <h2 class="glitch-effect" data-text="AdSnap">AdSnap</h2>
+          </div>
+          <p class="footer-about">AI-powered marketing made simple. Create stunning ad campaigns in minutes, not hours.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#">Updates</a>
+          <a href="#">Roadmap</a>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="/about">About Us</a>
+          <a href="/blog">Blog</a>
+          <a href="/careers">Careers</a>
+          <a href="#">Press</a>
+          <a href="#">Partners</a>
+        </div>
+        <div class="footer-section">
+          <h4>Support</h4>
+          <a href="/help">Help Center</a>
+          <a href="/contact">Contact</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Status</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 AdSnap. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </footer>
   </div>
 
-  <!-- Main App Content -->
-  <main id="appContent" class="hidden">
-    <header>
-      <div class="cyber-corner top-left"></div>
-      <div class="cyber-corner top-right"></div>
-      <div class="cyber-corner bottom-left"></div>
-      <div class="cyber-corner bottom-right"></div>
-      <h1 class="glitch-effect" data-text="AdSnap">AdSnap</h1>
-      <p>AI-Powered Ad Campaign Generator</p>
-      <div class="user-info">
-        <span id="usernameDisplay"></span>
-        <button id="logoutBtn" class="cyber-button small">Logout</button>
-      </div>
-    </header>
-
-    <div class="container">
-      <div class="grid-overlay"></div>
-      <div class="input-section">
-        <div class="form-group">
-          <label for="campaignName">Campaign Name:</label>
-          <input type="text" id="campaignName" placeholder="Enter campaign name">
-        </div>
-        
-        <div class="form-group">
-          <label for="productPhoto">Upload Product Photo (Optional):</label>
-          <input type="file" id="productPhoto" accept="image/*">
-        </div>
-
-        <div class="form-group">
-          <label for="productName">Product Name:</label>
-          <input type="text" id="productName" placeholder="Enter product name" required>
-        </div>
-        
-        <!-- Product Category Dropdown -->
-        <div class="form-group">
-          <label for="productCategory">Product Category:</label>
-          <select id="productCategory" required>
-            <option value="" disabled selected>Select a category</option>
-            <option value="fashion">🛍️ Fashion & Apparel</option>
-            <option value="electronics">💻 Electronics</option>
-            <option value="beauty">💄 Beauty & Cosmetics</option>
-            <option value="home">🏠 Home & Kitchen</option>
-            <option value="health">💪 Health & Wellness</option>
-            <option value="food">🍽️ Food & Beverage</option>
-            <option value="other">✨ Other</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="productDescription">Product Description:</label>
-          <textarea id="productDescription" rows="5" placeholder="Describe your product features, benefits, and target audience..." required></textarea>
-        </div>
-        
-        <!-- Brand Tone Dropdown -->
-        <div class="form-group">
-          <label for="brandTone">Brand Tone:</label>
-          <select id="brandTone" required>
-            <option value="" disabled selected>Select brand tone</option>
-            <option value="professional">👔 Professional</option>
-            <option value="friendly">😊 Friendly & Casual</option>
-            <option value="luxury">👑 Luxury & Elegant</option>
-            <option value="fun">🎉 Fun & Playful</option>
-            <option value="bold">🔥 Bold & Edgy</option>
-          </select>
-        </div>
-
-        <div class="banner-options">
-          <!-- Banner Style Dropdown -->
-          <div class="form-group">
-            <label for="bannerStyle">Banner Style:</label>
-            <select id="bannerStyle">
-              <option value="" disabled selected>Choose banner style</option>
-              <option value="gradient">🌈 Gradient</option>
-              <option value="geometric">📐 Geometric</option>
-              <option value="minimal">⚪ Minimal</option>
-              <option value="dark">🌙 Dark Theme</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="primaryColor">Primary Color:</label>
-            <input type="color" id="primaryColor" value="#4a90e2">
-          </div>
-
-          <div class="form-group">
-            <label for="secondaryColor">Secondary Color:</label>
-            <input type="color" id="secondaryColor" value="#2a60b2">
-          </div>
-        </div>
-
-        <div class="error-message" id="errorMessage"></div>
-
-        <button id="generateBtn" class="cyber-button">Generate Campaign with AI</button>
-      </div>
-
-      <div class="output-section terminal-effect" id="outputSection">
-        <!-- Dynamic Content Goes Here -->
-      </div>
-    </div>
-  </main>
-
-
-  <!-- Account Page Overlay -->
-<div class="account-overlay hidden" id="accountOverlay">
-  <div class="account-container">
-    <button class="close-account" id="closeAccount">&times;</button>
-    
-    <div class="account-header">
-      <div class="account-avatar">
-        <img src="" alt="User Avatar" id="userAvatar">
-      </div>
-      <h2 id="accountUsername">Loading...</h2>
-      <p id="accountEmail">user@example.com</p>
-    </div>
-    
-    <div class="account-tabs">
-      <button class="account-tab active" data-tab="profile">Profile</button>
-      <button class="account-tab" data-tab="history">Work History</button>
-      <button class="account-tab" data-tab="settings">Settings</button>
-    </div>
-    
-    <div class="account-content">
-      <!-- Profile Tab -->
-      <div class="account-tab-content active" id="profile-tab">
-        <div class="account-details">
-          <h3>Account Details</h3>
-          <div class="detail-row">
-            <span class="detail-label">Member Since:</span>
-            <span class="detail-value" id="memberSince">Loading...</span>
-          </div>
-          <div class="detail-row">
-            <span class="detail-label">Campaigns Generated:</span>
-            <span class="detail-value" id="campaignsCount">0</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Work History Tab -->
-      <div class="account-tab-content" id="history-tab">
-        <h3>Your Generated Campaigns</h3>
-        <div class="campaigns-list" id="campaignsList">
-          <div class="empty-state">
-            <p>Loading your campaigns...</p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Settings Tab -->
-      <div class="account-tab-content" id="settings-tab">
-        <h3>Account Settings</h3>
-        <form class="account-settings-form" id="settingsForm">
-          <div class="form-group">
-            <label for="changeName">Change Username</label>
-            <input type="text" id="changeName" placeholder="New username">
-          </div>
-          <div class="form-group">
-            <label for="changeEmail">Change Email</label>
-            <input type="email" id="changeEmail" placeholder="New email">
-          </div>
-          <button type="submit" class="cyber-button">Save Changes</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Campaign Detail Modal -->
-<div class="campaign-modal hidden" id="campaignModal">
-  <div class="modal-content">
-    <button class="close-modal" id="closeModal">&times;</button>
-    <h2 id="modalCampaignName"></h2>
-    <div class="modal-meta">
-      <span id="modalCampaignDate"></span>
-      <span id="modalCampaignCategory"></span>
-      <span id="modalCampaignTone"></span>
-    </div>
-    <div class="modal-body">
-      <h3>Generated Content</h3>
-      <div class="modal-generated-content" id="modalGeneratedContent"></div>
-      
-      <h3>Banner Details</h3>
-      <div class="modal-banner-details">
-        <p>Style: <span id="modalBannerStyle"></span></p>
-        <p>Colors: <span id="modalBannerColors"></span></p>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-
-<script src="js/banner-generator.js"></script>
-<script src="js/gemini-service.js"></script>
-<script src="js/login.js"></script>
-<script src="js/account-service.js"></script>
-<script src="js/account.js"></script>
-<script src="js/script.js"></script>
-<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
-
+  <script src="js/homeScript.js"></script>
 </body>
 </html>
